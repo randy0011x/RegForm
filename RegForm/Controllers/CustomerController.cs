@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RegForm.Data;
+using RegForm.HttpClients;
 using RegForm.Models;
 
 namespace RegForm.Controllers
@@ -9,16 +10,25 @@ namespace RegForm.Controllers
 
     {
         private readonly ApplicationDbContext _context;
-        public CustomerController(ApplicationDbContext context)
+        private readonly UserClient _userClient;
+        public CustomerController(ApplicationDbContext context, UserClient userclient)
         {
             _context = context;
+            _userClient = userclient;
         }
 
-        public IActionResult Index() // TO DISPLAY THE LIST OF USER
+        //public IActionResult Index() // TO DISPLAY THE LIST OF USER
+        //{
+        //    var users = _context.Users.ToList(); // TO DISPLAY FROM CODE
+        //    return View(users);
+        //}
+        public async Task<IActionResult> Index()
         {
-            var users = _context.Users.ToList();
+            var users = await _userClient.GetUsersAsync();
             return View(users);
         }
+
+
         public IActionResult Register()
         {
             return View();
