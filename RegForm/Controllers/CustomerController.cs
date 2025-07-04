@@ -13,16 +13,18 @@ namespace RegForm.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+
+        public IActionResult Index() // TO DISPLAY THE LIST OF USER
         {
-            return View();
+            var users = _context.Users.ToList();
+            return View(users);
         }
         public IActionResult Register()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(UserModel user)
+        public IActionResult Create(UserModel user) // TO CREATE A NEW USER I.E REGISTER() IS JUST A PAGE RENDERING ACTION, CREATE IS AN ACTION TO CREATE A NEW USER
         {
             if (ModelState.IsValid)
             {
